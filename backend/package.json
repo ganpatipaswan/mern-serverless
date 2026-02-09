@@ -1,0 +1,13 @@
+{
+    "name": "lambda-demo",
+    "version": "1.0.0",
+    "main": "index.js",
+    "dependencies": {
+        "aws-sdk": "^2.1693.0",
+        "cors": "^2.8.5",
+        "dotenv": "^17.2.3",
+        "express": "^4.22.1",
+        "mongoose": "^9.1.5",
+        "serverless-http": "^4.0.0"
+    }
+}

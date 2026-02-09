@@ -1,0 +1,15 @@
+service: serverless-demo
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: ap-south-1
+
+functions:
+  hello:
+    handler: handler.handler
+    events:
+      - http:
+          path: /{proxy+}
+          method: get
+

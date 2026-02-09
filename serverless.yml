@@ -1,0 +1,19 @@
+service: mern-serverless-api
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: us-east-1
+  timeout: 30        # ⬅ increase timeout
+  memorySize: 1024
+  environment:
+    MONGO_URI: mongodb+srv://ganpatiqodequay_db_user:M0Qhpaak1uLDtXtA@cluster0.wrpptzg.mongodb.net/?appName=Cluster0
+
+functions:
+  api:
+    handler: backend/handler.handler
+    events:
+      - http:
+          path: /{proxy+}
+          method: ANY
+          cors: true
