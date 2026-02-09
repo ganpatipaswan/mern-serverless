@@ -5,11 +5,24 @@ provider:
   runtime: nodejs20.x
   region: ap-south-1
 
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:Query
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - arn:aws:dynamodb:ap-south-1:797882812918:table/Users
+
 functions:
   hello:
     handler: handler.handler
     events:
       - http:
           path: /{proxy+}
-          method: get
-
+          method: any

@@ -1,44 +1,48 @@
 const express = require("express");
 const app = express();
+const dynamoDB = require("./dynamodb");
 
-app.get("/hello", (req, res) => {
-  res.json({ message: "Hello World from Express + Lambda 🚀 test ---" });
+app.use(express.json());
+
+// TEST API – checks DynamoDB connection
+app.get("/users", async (req, res) => {
+  try {
+    const data = await dynamoDB.scan({
+      TableName: "Users"
+    }).promise();
+
+    res.json({
+      success: true,
+      users: data.Items
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
 });
 
-module.exports = app;
+// CREATE USER API
+app.post("/users", async (req, res) => {
+  const { userId, name, email } = req.body;
 
+  try {
+    await dynamoDB.put({
+      TableName: "Users",
+      Item: {
+        userId,
+        name,
+        email,
+        createdAt: new Date().toISOString()
+      }
+    }).promise();
 
-// const express = require("express");
-// const mongoose = require("mongoose");
-
-// const app = express();
-// app.use(express.json());
-
-// let cachedConn = null;
-
-// async function connectDB() {
-//   if (cachedConn) return cachedConn;
-
-//   cachedConn = await mongoose.connect(process.env.MONGO_URI, {
-//     serverSelectionTimeoutMS: 5000,
-//   });
-
-//   console.log("MongoDB connected");
-//   return cachedConn;
-// }
-
-// const TodoSchema = new mongoose.Schema({ title: String });
-// const Todo = mongoose.models.Todo || mongoose.model("Todo", TodoSchema);
-
-// app.get("/todos", async (req, res) => {
-//   try {
-//     await connectDB();
-//     const todos = await Todo.find();
-//     res.json(todos);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: "DB connection failed" });
-//   }
-// });
+    res.json({ success: true, message: "User created test" });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
 
 module.exports = app;

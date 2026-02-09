@@ -1,0 +1,67 @@
+{
+    "info": {
+      "_postman_id": "a3d5a8c1-9d67-4f7a-9cfa-111122223333",
+      "name": "Serverless Express DynamoDB APIs",
+      "description": "APIs for Serverless + Express + AWS Lambda + DynamoDB Users table",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+      {
+        "key": "baseUrl",
+        "value": "https://vwg03nfje2.execute-api.ap-south-1.amazonaws.com/dev",
+        "type": "string"
+      }
+    ],
+    "item": [
+      {
+        "name": "Health Check",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "{{baseUrl}}/hello",
+            "host": ["{{baseUrl}}"],
+            "path": ["hello"]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "Get All Users",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "{{baseUrl}}/users",
+            "host": ["{{baseUrl}}"],
+            "path": ["users"]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "Create User",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json",
+              "type": "text"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"userId\": \"u-101\",\n  \"name\": \"Ganpati\",\n  \"email\": \"ganpati@test.com\"\n}"
+          },
+          "url": {
+            "raw": "{{baseUrl}}/users",
+            "host": ["{{baseUrl}}"],
+            "path": ["users"]
+          }
+        },
+        "response": []
+      }
+    ]
+  }
+  
