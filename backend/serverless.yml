@@ -5,6 +5,11 @@ provider:
   runtime: nodejs20.x
   region: ap-south-1
 
+  # Environment variables available inside Lambda
+  environment:
+    JWT_SECRET: my_super_secret_key_123
+
+  # IAM permissions for Lambda
   iam:
     role:
       statements:
@@ -15,10 +20,11 @@ provider:
             - dynamodb:GetItem
             - dynamodb:PutItem
             - dynamodb:UpdateItem
+            - dynamodb:Query
           Resource:
             - arn:aws:dynamodb:ap-south-1:797882812918:table/Users
 
-        # S3 permissions
+        # S3 permissions (profile image upload)
         - Effect: Allow
           Action:
             - s3:PutObject
@@ -30,6 +36,7 @@ functions:
   api:
     handler: handler.handler
     events:
+      # HTTP API with proxy routing
       - http:
           path: /{proxy+}
           method: any
