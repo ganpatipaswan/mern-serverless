@@ -8,19 +8,26 @@ provider:
   iam:
     role:
       statements:
+        # DynamoDB permissions
         - Effect: Allow
           Action:
             - dynamodb:Scan
             - dynamodb:GetItem
             - dynamodb:PutItem
-            - dynamodb:Query
             - dynamodb:UpdateItem
-            - dynamodb:DeleteItem
           Resource:
             - arn:aws:dynamodb:ap-south-1:797882812918:table/Users
 
+        # S3 permissions
+        - Effect: Allow
+          Action:
+            - s3:PutObject
+            - s3:GetObject
+          Resource:
+            - arn:aws:s3:::user-profile-images-797882812918/*
+
 functions:
-  hello:
+  api:
     handler: handler.handler
     events:
       - http:
